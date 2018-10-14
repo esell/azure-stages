@@ -1,0 +1,14 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+runcmd:
+    - echo "mysql-server mysql-server/root_password password MyInsecurePassword123!" | sudo debconf-set-selections
+    - echo "mysql-server mysql-server/root_password_again password MyInsecurePassword123!" | sudo debconf-set-selections
+    - sudo apt-get -y install mysql-server
+    - service mysql start
+    - sed -i -e 's/bind-address/#bind-address/' /etc/mysql/mysql.conf.d/mysqld.cnf
+    - service mysql restart
+    - mysql -u root -pMyInsecurePassword123! -e "CREATE USER 'esell'@'%' IDENTIFIED BY 'MyInsecurePassword'"
+    - mysql -u root -pMyInsecurePassword123! -e "GRANT ALL PRIVILEGES ON *.* TO 'esell'@'%' IDENTIFIED BY 'MyInsecurePassword'"

@@ -1,0 +1,22 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+runcmd:
+    - cd /tmp && wget https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz 
+    - cd /tmp && tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+    - echo "export PATH=$PATH:/usr/local/go/bin" >> /etc/profile
+    - GOPATH=/opt /usr/local/go/bin/go get -u github.com/go-sql-driver/mysql
+    - GOPATH=/opt /usr/local/go/bin/go get -u github.com/speps/go-hashids
+    - GOPATH=/opt /usr/local/go/bin/go get -u github.com/esell/pastemaster
+    - nohup /opt/bin/pastemaster -c /opt/conf.json &
+
+write_files:
+    - content: |
+        {
+        "DatabaseHost": "192.168.1.5",
+        "DatabaseUser": "esell",
+        "DatabasePass": "MyInsecurePassword"
+        }
+      path: /opt/conf.json

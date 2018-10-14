@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westus2"
+        },
+        "VNETName": {
+            "value": "pm-vnet"
+        },
+        "DBSubnetName": {
+            "value": "pm-db-subnet"
+        },
+        "appSubnetName": {
+            "value": "pm-app-subnet"
+        },
+        "VNETCIDR": {
+            "value": "192.168.0.0/16"
+        },
+        "DBSubnetCIDR": {
+            "value": "192.168.1.0/24"
+        },
+        "appSubnetCIDR": {
+            "value": "192.168.2.0/24"
+        }
+    }
+}

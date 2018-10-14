@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "String"
+        },
+        "VNETName": {
+            "type": "String"
+        },
+        "DBSubnetName": {
+            "type": "String"
+        },
+        "appSubnetName": {
+            "type": "String"
+        },
+        "VNETCIDR": {
+            "type": "String"
+        },
+        "DBSubnetCIDR": {
+            "type": "String"
+        },
+        "appSubnetCIDR": {
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('VNETName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('VNETCIDR')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('DBSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('DBSubnetCIDR')]"
+                        }
+                    },
+                    {
+                        "name": "[parameters('appSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('appSubnetCIDR')]"
+                        }
+                    }
+                ],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            },
+            "dependsOn": []
+        }
+    ]
+}
