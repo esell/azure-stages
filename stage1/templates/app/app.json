@@ -33,7 +33,7 @@
         "imagePublisher": "Canonical",
         "imageOffer": "UbuntuServer",
         "nicName": "[concat(parameters('vmName'), '-nic-', uniquestring(resourceGroup().id, deployment().name))]",
-        "publicIPAddressName": "[concat(parameters('-vmName-'), 'ip', uniquestring(resourceGroup().id, deployment().name))]",
+        "publicIPAddressName": "[concat(parameters('vmName'), '-ip-', uniquestring(resourceGroup().id, deployment().name))]",
         "publicIPAddressType": "Dynamic",
         "networkSecurityGroupName": "[concat(parameters('vmName'), '-nsg-', uniquestring(resourceGroup().id, deployment().name))]",
         "subnet1Ref": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNETname'), parameters('subnetName'))]"
