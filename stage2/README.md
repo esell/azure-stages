@@ -106,7 +106,7 @@ that you can share with others.
 
 In our current state we have a bunch of resources sitting out in Azure that we no longer need so let's clean those up.
 Currently, there is no way to delete all resources associated with a VM so we will use a slightly modified version 
-of a script that @riedwaab previously created and shared with the world (thanks!):
+of a script that [@riedwaab](https://github.com/riedwaab) previously created and shared with the world (thanks!):
 
 
 `./delete-vm.sh app1 pastemaster`
