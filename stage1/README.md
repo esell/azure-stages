@@ -1,11 +1,9 @@
 # Stage 1
 
-Technically stage 1 would be creating everything in the portal but that's boring :).
-
 This stage 1 is going to focus on how you can take your existing on-prem resources and
 move them into Azure via [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#template-deployment). 
-ARM templates are very powerful and give you
-the ability to automate resource creation vs using the portal or the CLI.
+ARM templates are very powerful and give you the ability to automate resource creation vs 
+using the portal or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest). 
 
 One key component is the ability to parameterize the templates which allows you to use
 a single template but pass in different parameter values. An example would be using one
@@ -21,7 +19,7 @@ to configure our VMs after they have been created. We will use cloud-init to do 
 install packages, modify config files, etc.
 
 
-On top of all that we've also done away with the portal! We will be using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) from here
+On top of all that we've also done away with the portal! We will be using the Azure CLI from here
 on out to interact with Azure. As you become more comfortable with Azure you will likely realize
 that while the portal is nice, the Azure CLI is much more efficient.
 
