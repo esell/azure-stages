@@ -50,6 +50,9 @@ do our provisioning. You can take a look at the `templates/network.json` and
 
 The command below will create the VNET and various subnets that the resources will use
 
+`cd templates`
+
+
 `az group deployment create --resource-group pastemaster --template-file network.json --parameters network-params.json`  
 
 

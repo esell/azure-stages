@@ -29,7 +29,7 @@
     },
     "variables": {
         "ubuntuOSVersion": "18.04-LTS",
-        "uniqueDnsLabelPrefix": "[concat('app', uniqueString(resourceGroup().id, deployment().name))]",
+        "uniqueDnsLabelPrefix": "[concat(parameters('vmName'), uniqueString(resourceGroup().id, deployment().name))]",
         "imagePublisher": "Canonical",
         "imageOffer": "UbuntuServer",
         "nicName": "[concat(parameters('vmName'), '-nic-', uniquestring(resourceGroup().id, deployment().name))]",
