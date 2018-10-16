@@ -18,7 +18,7 @@ other users via a unique URL. The pastemaster app consists of a few simple HTML 
 the frontend), a [Go](https://golang.org) application to handle the business logic and a MySQL database for the datastore. Sounds like a typical three-tier app eh?
 
 
-# Stage 1
+# [Stage 1](stage1/README.md)
 
 
 When enterprises begin their journey into the world of Azure, they typically do it
@@ -33,7 +33,7 @@ what that process might look like with our toy pastemaster application.
 
 
 
-# Stage 2
+# [Stage 2](stage2/README.md)
 
 Swap out MySQL for PaaS
 
