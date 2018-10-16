@@ -59,6 +59,20 @@
                             "priority": 123,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "pm_app_rule",
+                        "properties": {
+                            "description": "Allow port 8080.",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8080",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 223,
+                            "direction": "Inbound"
+                        }
                     }
                 ]
             }
