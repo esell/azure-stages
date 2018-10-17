@@ -107,7 +107,7 @@ Now we do the actual deployment:
 At this point we should hopefully have a working version of the application. To verify, find the IP of your app VM:
 
 
-`az vm list-ip-addresses -g pastemaster -n app1`
+`az vm list-ip-addresses -g pastemaster -n app1 -o table`
 
 
 and then in a browser visit:
