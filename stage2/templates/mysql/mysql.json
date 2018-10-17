@@ -39,7 +39,9 @@
             "type": "String"
         }
     },
-    "variables": {},
+    "variables": {
+        "uServerName": "[concat(parameters('serverName'), guid(resourceGroup().id, deployment().name, subscription().subscriptionId))]"
+    },
     "resources": [
         {
             "type": "Microsoft.DBforMySQL/servers",
@@ -51,7 +53,7 @@
                 "family": "[parameters('skuFamily')]"
             },
             "kind": "",
-            "name": "[parameters('serverName')]",
+            "name": "[variables('uServerName')]",
             "apiVersion": "2017-12-01-preview",
             "location": "[parameters('location')]",
             "properties": {
@@ -65,5 +67,15 @@
                 }
             }
         }
-    ]
+    ],
+    "outputs": {
+        "mysqlfqdn" : {
+            "type" : "string",
+            "value": "[reference(variables('uServerName')).fullyQualifiedDomainName]"
+        },
+        "mysqlhostname" : {
+            "type" : "string",
+            "value": "[variables('uServerName')]"
+        }
+    }
 }

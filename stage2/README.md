@@ -50,16 +50,17 @@ directory and deploy our template:
 `cd templates/mysql`
 
 
-`az group deployment create --resource-group pastemaster --template-file mysql.json --parameters mysql-params.json`
+`az group deployment create --resource-group pastemaster --template-file mysql.json --parameters mysql-params.json --query "properties.outputs.mysqlhostname.value"`
 
+In order to avoid naming conflicts, we generated a random host name for the MySQL resource. When the above
+command completes successfully, the output will be your new host name.
 
-You should have a shiny new `mysql1-paas` resource in your resource group now.
-
+Now take note of this value as we'll be using it later.
 
 We're not quite done yet though, we need to tell our new MySQL PaaS resource to only accept
 traffic from the `pm-app-subnet` subnet that we configured previously:
 
-`az mysql server vnet-rule create -n app-subnet-rule -g pastemaster -s mysql1-paas --vnet-name pm-vnet --subnet pm-app-subnet`
+`az mysql server vnet-rule create -n app-subnet-rule -g pastemaster -s YOUR_HOST_NAME_FROM_ABOVE --vnet-name pm-vnet --subnet pm-app-subnet`
 
 
 # Re-deploy Our App
@@ -67,7 +68,9 @@ traffic from the `pm-app-subnet` subnet that we configured previously:
 We've got a fancy MySQL PaaS service up and running now so let's re-deploy our app server
 to take advantage of it. If you look at `templates/app/app-cloud-init.yml` you will
 see that most everything is the same except for the database connection information.
-We have updated the connection string info as well as added a flag to our app
+In the `app-cloud-init.yml` file you will need to populate the `DatabaseHost` and
+`DatabaseUser` with the host name of your MySQL PaaS resource you created up above.
+We have also  added a flag to our app
 that forces us to use TLS when we connect to the MySQL PaaS resource. While 
 security is an afterthought in most of this document, we might as well do this
 since Azure MySQL supports TLS right out of the box.
@@ -89,7 +92,7 @@ Now we do the actual deployment:
 
 At this point we should hopefully have a working version of the application. To verify, find the IP of your *new* app VM:
 
-`az vm list-ip-addresses -g pastemaster -n app2`
+`az vm list-ip-addresses -g pastemaster -n app2 -o table`
 
 
 and then in a browser visit:

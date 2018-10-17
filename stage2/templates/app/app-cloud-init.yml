@@ -15,8 +15,8 @@ runcmd:
 write_files:
     - content: |
         {
-        "DatabaseHost": "mysql1-paas.mysql.database.azure.com",
-        "DatabaseUser": "eselladmin@mysql1-paas",
+        "DatabaseHost": "YOUR_HOST_NAME_FROM_ABOVE.mysql.database.azure.com",
+        "DatabaseUser": "eselladmin@YOUR_HOST_NAME_FROM_ABOVE",
         "DatabasePass": "MyInsecurePassword123!"
         }
       path: /opt/conf.json
