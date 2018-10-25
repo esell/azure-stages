@@ -1,0 +1,85 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vaultName": {
+            "type": "string"
+        },
+        "miName": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "uVaultName": "[substring(concat(parameters('vaultName'), '-', guid(resourceGroup().id, deployment().name, subscription().subscriptionId)),0,22)]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "name": "[parameters('miName')]",
+            "apiVersion": "2015-08-31-PREVIEW",
+            "location": "[resourceGroup().location]"
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "name": "[variables('uVaultName')]",
+            "apiVersion": "2018-02-14",
+            "location": "westus2",
+            "tags": {},
+            "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "Standard"
+                },
+                "tenantId": "[subscription().tenantId]",
+                "accessPolicies": [
+                    {
+                        "tenantId": "[subscription().tenantId]",
+                        "objectId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('miName')), '2015-08-31-PREVIEW').principalId]",
+                        "permissions": {
+                            "keys": [],
+                            "secrets": [
+                                "Get",
+                                "List",
+                                "Set",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "certificates": []
+                        }
+                    }
+                ],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false
+            },
+            "resources": [
+                {
+                    "type": "secrets",
+                    "name": "mysqlpass",
+                    "apiVersion": "2018-02-14",
+                    "properties": {
+                        "value": "MyInsecurePassword123!"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.KeyVault/vaults/', variables('uVaultName'))]"
+                    ]
+                }
+            ],
+            "dependsOn": [
+                "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/',parameters('miName'))]"	
+            ]
+        }
+    ],
+    "outputs": {
+        "vaultfqdn" : {
+            "type" : "string",
+            "value": "[reference(variables('uVaultName')).vaultUri]"
+        },
+        "vaulthostname" : {
+            "type" : "string",
+            "value": "[variables('uVaultName')]"
+        }
+    }
+}

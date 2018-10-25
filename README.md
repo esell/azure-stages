@@ -60,9 +60,10 @@ This will be our first baby step into a "cloud native" architecture and will
 pave the way for our future stages.
 
 
-# Stage 3
+# [Stage 3](stage3/README.md)
 
-Key Vault for secrets?
+While we are on the PaaS train, let's setup [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/) 
+to help us later on when we start deploying our app all over the globe!
 
 
 # Stage 4

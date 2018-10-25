@@ -1,0 +1,19 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+runcmd:
+    # just to make sure it is available for these steps
+    - apt-get install jq -y
+    - cd /tmp && wget https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz 
+    - cd /tmp && tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+    - echo "export PATH=$PATH:/usr/local/go/bin" >> /etc/profile
+    - GOPATH=/opt /usr/local/go/bin/go get -u github.com/go-sql-driver/mysql
+    - GOPATH=/opt /usr/local/go/bin/go get -u github.com/speps/go-hashids
+    - GOPATH=/opt /usr/local/go/bin/go get -u github.com/esell/pastemaster
+    - export KVTOKEN=$(curl -s 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -H Metadata:true | jq -r .access_token)
+    - export PMDBHOST="YOUR_HOST_NAME_FROM_ABOVE.mysql.database.azure.com"
+    - export PMDBUSER="eselladmin@YOUR_HOST_NAME_FROM_ABOVE"
+    - export PMDBPASS=$(curl -s 'https://YOUR_VAULT_NAME_FROM_ABOVE.vault.azure.net/secrets/mysqlpass?api-version=2016-10-01' -H "Authorization:Bearer $KVTOKEN" | jq -r .value)
+    - nohup /opt/bin/pastemaster -s &
